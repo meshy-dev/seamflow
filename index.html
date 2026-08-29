@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="SeamFlow learns artist-like UV seam layouts with structure-aware flow matching directly on mesh-edge probabilities.">
+    <meta name="keywords" content="SeamFlow, UV unwrapping, flow matching, mesh processing, computer graphics">
+    <meta property="og:title" content="SeamFlow — Artist-Like UV Unwrapping">
+    <meta property="og:description" content="Structure-aware flow matching on edge probabilities for artist-like UV unwrapping.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://meshy-dev.github.io/seamflow.github.io/">
+    <meta property="og:image" content="https://meshy-dev.github.io/seamflow.github.io/static/images/seamflow-overview.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <title>SeamFlow: Artist-Like UV Unwrapping</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Source+Serif+4:opsz,wght@8..60,600&amp;display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
+    <link rel="stylesheet" href="static/css/index.css">
+  </head>
+  <body>
+    <nav class="site-nav" aria-label="Project navigation">
+      <a class="brand" href="#top" aria-label="SeamFlow home">
+        <span class="brand-mark" aria-hidden="true"></span>
+        SeamFlow
+      </a>
+      <div class="nav-links">
+        <a href="#abstract">Abstract</a>
+        <a href="#method">Method</a>
+        <a href="#citation">BibTeX</a>
+      </div>
+    </nav>
+
+    <main id="top">
+      <section class="hero publication-hero">
+        <div class="hero-body">
+          <div class="container is-max-desktop has-text-centered">
+            <p class="eyebrow">Research project · 2026</p>
+            <h1 class="title publication-title">
+              <span class="title-mark">SeamFlow</span>
+              <span class="title-detail">Structure-Aware Flow Matching on Edge Probabilities for Artist-Like UV Unwrapping</span>
+            </h1>
+
+            <div class="publication-authors" aria-label="Authors">
+              <span class="author-block">Yuming Zhao</span>
+              <span class="author-block">Zangyueyang Xian</span>
+              <span class="author-block">Qijian Zhang</span>
+              <span class="author-block">Rendong Liang</span>
+              <span class="author-block">Qin Jia</span>
+              <span class="author-block">Ying He</span>
+              <span class="author-block">Junhui Hou</span>
+            </div>
+
+            <div class="publication-links" aria-label="Project resources">
+              <span class="resource-pill is-disabled" aria-label="Paper coming soon">Paper <small>soon</small></span>
+              <span class="resource-pill is-disabled" aria-label="Code coming soon">Code <small>soon</small></span>
+              <span class="resource-pill is-disabled" aria-label="Models coming soon">Models <small>soon</small></span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section teaser-section" aria-labelledby="teaser-caption">
+        <div class="container is-max-widescreen">
+          <figure class="teaser-frame">
+            <img src="static/images/seamflow-overview.png" alt="Overview of SeamFlow, from mesh encoding through structure-aware flow matching to edge probabilities and a UV map.">
+          </figure>
+          <p id="teaser-caption" class="teaser-caption">
+            SeamFlow maps noise to mesh-aligned seam probabilities, producing structured cuts that unfold into artist-like UV layouts.
+          </p>
+        </div>
+      </section>
+
+      <section id="abstract" class="section paper-section">
+        <div class="container is-max-desktop">
+          <div class="columns is-centered has-text-centered">
+            <div class="column is-four-fifths">
+              <p class="section-kicker">Overview</p>
+              <h2 class="title is-2 section-title">Abstract</h2>
+              <div class="content abstract-copy has-text-justified">
+                <p>
+                  UV unwrapping requires selecting seams that balance geometric quality with the structural conventions used by artists. SeamFlow formulates seam generation as conditional flow matching directly over mesh-edge probabilities. This mesh-aligned representation avoids imposing an artificial order on an unordered seam graph and gives every output coordinate a concrete cut-or-keep meaning.
+                </p>
+                <p>
+                  A global shape encoder provides geometric context, while structure-aware attention models interactions among candidate edges throughout the denoising trajectory. The resulting seam probabilities can be thresholded and passed to a standard parameterization pipeline to obtain coherent, artist-like UV layouts.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="method" class="section highlight-section">
+        <div class="container is-max-desktop">
+          <p class="section-kicker has-text-centered">Why SeamFlow</p>
+          <h2 class="title is-2 section-title has-text-centered">A seam-native generative representation</h2>
+          <div class="columns is-variable is-5 highlight-grid">
+            <div class="column">
+              <article class="highlight-card">
+                <span class="card-index">01</span>
+                <h3>Mesh-aligned</h3>
+                <p>Each generated coordinate corresponds to one input edge, avoiding projection from an indirect geometric representation.</p>
+              </article>
+            </div>
+            <div class="column">
+              <article class="highlight-card">
+                <span class="card-index">02</span>
+                <h3>Order-free</h3>
+                <p>Continuous edge probabilities model a seam graph without forcing an arbitrary autoregressive ordering.</p>
+              </article>
+            </div>
+            <div class="column">
+              <article class="highlight-card">
+                <span class="card-index">03</span>
+                <h3>Distributional</h3>
+                <p>Flow matching captures the one-to-many nature of professional seam layouts instead of returning only one solution.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="citation" class="section citation-section">
+        <div class="container is-max-desktop">
+          <p class="section-kicker">Reference</p>
+          <div class="citation-heading">
+            <h2 class="title is-2 section-title">BibTeX</h2>
+            <button class="copy-button" type="button" data-copy-target="bibtex" aria-label="Copy BibTeX">Copy</button>
+          </div>
+          <pre id="bibtex"><code>@article{zhao2026seamflow,
+  title   = {SeamFlow: Structure-Aware Flow Matching on Edge Probabilities
+             for Artist-Like UV Unwrapping},
+  author  = {Zhao, Yuming and Xian, Zangyueyang and Zhang, Qijian and
+             Liang, Rendong and Jia, Qin and He, Ying and Hou, Junhui},
+  year    = {2026}
+}</code></pre>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer site-footer">
+      <div class="container is-max-desktop">
+        <p>SeamFlow · 2026</p>
+        <p>
+          Template code adapted from the
+          <a href="https://nerfies.github.io" rel="noreferrer">Nerfies project page</a>
+          under <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="license">CC BY-SA 4.0</a>.
+        </p>
+      </div>
+    </footer>
+
+    <script src="static/js/index.js"></script>
+  </body>
+</html>
