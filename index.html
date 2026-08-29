@@ -9,8 +9,9 @@
     <meta property="og:description" content="Structure-aware flow matching on edge probabilities for artist-like UV unwrapping.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://meshy-dev.github.io/seamflow.github.io/">
-    <meta property="og:image" content="https://meshy-dev.github.io/seamflow.github.io/static/images/seamflow-overview.png">
+    <meta property="og:image" content="https://meshy-dev.github.io/seamflow.github.io/static/images/seamflow-teaser.jpg">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#fbfaf7">
     <title>SeamFlow: Artist-Like UV Unwrapping</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,6 +29,7 @@
       <div class="nav-links">
         <a href="#abstract">Abstract</a>
         <a href="#method">Method</a>
+        <a href="#results">Results</a>
         <a href="#citation">BibTeX</a>
       </div>
     </nav>
@@ -36,24 +38,32 @@
       <section class="hero publication-hero">
         <div class="hero-body">
           <div class="container is-max-desktop has-text-centered">
-            <p class="eyebrow">Research project · 2026</p>
+            <p class="eyebrow">SIGGRAPH Asia 2026 · Conference Papers</p>
             <h1 class="title publication-title">
               <span class="title-mark">SeamFlow</span>
               <span class="title-detail">Structure-Aware Flow Matching on Edge Probabilities for Artist-Like UV Unwrapping</span>
             </h1>
 
             <div class="publication-authors" aria-label="Authors">
-              <span class="author-block">Yuming Zhao</span>
-              <span class="author-block">Zangyueyang Xian</span>
-              <span class="author-block">Qijian Zhang</span>
-              <span class="author-block">Rendong Liang</span>
-              <span class="author-block">Qin Jia</span>
-              <span class="author-block">Ying He</span>
-              <span class="author-block">Junhui Hou</span>
+              <span class="author-block">Yuming Zhao<sup>*1</sup></span>
+              <span class="author-block">Zangyueyang Xian<sup>*2</sup></span>
+              <span class="author-block">Qijian Zhang<sup>3</sup></span>
+              <span class="author-block">Rendong Liang<sup>2</sup></span>
+              <span class="author-block">Qin Jia<sup>2</sup></span>
+              <span class="author-block">Ying He<sup>4</sup></span>
+              <span class="author-block">Junhui Hou<sup>†1</sup></span>
+            </div>
+
+            <div class="publication-affiliations" aria-label="Affiliations">
+              <span><sup>1</sup> City University of Hong Kong</span>
+              <span><sup>2</sup> Meshy AI</span>
+              <span><sup>3</sup> Bambu Lab</span>
+              <span><sup>4</sup> Nanyang Technological University</span>
+              <small><sup>*</sup> Equal contribution · <sup>†</sup> Corresponding author</small>
             </div>
 
             <div class="publication-links" aria-label="Project resources">
-              <span class="resource-pill is-disabled" aria-label="Paper coming soon">Paper <small>soon</small></span>
+              <a class="resource-pill" href="https://doi.org/10.1145/3829340.3842329" target="_blank" rel="noreferrer">Paper <small>DOI</small></a>
               <span class="resource-pill is-disabled" aria-label="Code coming soon">Code <small>soon</small></span>
               <span class="resource-pill is-disabled" aria-label="Models coming soon">Models <small>soon</small></span>
             </div>
@@ -64,10 +74,10 @@
       <section class="section teaser-section" aria-labelledby="teaser-caption">
         <div class="container is-max-widescreen">
           <figure class="teaser-frame">
-            <img src="static/images/seamflow-overview.png" alt="Overview of SeamFlow, from mesh encoding through structure-aware flow matching to edge probabilities and a UV map.">
+            <img src="static/images/seamflow-teaser.jpg" alt="SeamFlow teaser showing diverse meshes and a mesh seam layout evolving from Gaussian noise into a coherent cut graph.">
           </figure>
           <p id="teaser-caption" class="teaser-caption">
-            SeamFlow maps noise to mesh-aligned seam probabilities, producing structured cuts that unfold into artist-like UV layouts.
+            From Gaussian edge noise to coherent seam graphs: SeamFlow generates artist-like cut layouts across diverse objects while staying precisely aligned with mesh topology.
           </p>
         </div>
       </section>
@@ -80,10 +90,10 @@
               <h2 class="title is-2 section-title">Abstract</h2>
               <div class="content abstract-copy has-text-justified">
                 <p>
-                  UV unwrapping requires selecting seams that balance geometric quality with the structural conventions used by artists. SeamFlow formulates seam generation as conditional flow matching directly over mesh-edge probabilities. This mesh-aligned representation avoids imposing an artificial order on an unordered seam graph and gives every output coordinate a concrete cut-or-keep meaning.
+                  UV cutting and unwrapping are fundamental to computer graphics, but optimizing only geometric distortion can ignore the semantic coherence expected from artist-authored layouts. Existing autoregressive generators improve semantics, yet can introduce projection errors, artificial sequence-order bias, and locally inaccurate cuts.
                 </p>
                 <p>
-                  A global shape encoder provides geometric context, while structure-aware attention models interactions among candidate edges throughout the denoising trajectory. The resulting seam probabilities can be thresholded and passed to a standard parameterization pipeline to obtain coherent, artist-like UV layouts.
+                  SeamFlow instead relaxes discrete mesh cutting into continuous flow matching over a high-dimensional edge-probability space. An edge-token evolution network combines local mesh topology with global shape context and integrates a probability-flow ODE from Gaussian noise to a seam distribution. The result is a topology-aware, order-free generator that produces semantically coherent seams with low distortion.
                 </p>
               </div>
             </div>
@@ -91,32 +101,118 @@
         </div>
       </section>
 
-      <section id="method" class="section highlight-section">
+      <section class="section highlight-section">
         <div class="container is-max-desktop">
-          <p class="section-kicker has-text-centered">Why SeamFlow</p>
-          <h2 class="title is-2 section-title has-text-centered">A seam-native generative representation</h2>
+          <p class="section-kicker has-text-centered">Core contributions</p>
+          <h2 class="title is-2 section-title has-text-centered">Structure-aware generation on mesh edges</h2>
           <div class="columns is-variable is-5 highlight-grid">
             <div class="column">
               <article class="highlight-card">
                 <span class="card-index">01</span>
-                <h3>Mesh-aligned</h3>
-                <p>Each generated coordinate corresponds to one input edge, avoiding projection from an indirect geometric representation.</p>
+                <h3>Topology-aware</h3>
+                <p>Edge tokens explicitly encode mesh connectivity, keeping predicted cuts aligned with the underlying surface without 3D projection.</p>
               </article>
             </div>
             <div class="column">
               <article class="highlight-card">
                 <span class="card-index">02</span>
-                <h3>Order-free</h3>
-                <p>Continuous edge probabilities model a seam graph without forcing an arbitrary autoregressive ordering.</p>
+                <h3>Flow-matched</h3>
+                <p>All edge probabilities evolve in parallel through a continuous flow, removing artificial autoregressive order and sequential decoding.</p>
               </article>
             </div>
             <div class="column">
               <article class="highlight-card">
                 <span class="card-index">03</span>
-                <h3>Distributional</h3>
-                <p>Flow matching captures the one-to-many nature of professional seam layouts instead of returning only one solution.</p>
+                <h3>Globally conditioned</h3>
+                <p>Local topological tokens are fused with a global shape prior to preserve long-range symmetry, components, and semantic structure.</p>
               </article>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="method" class="section method-section">
+        <div class="container is-max-widescreen">
+          <div class="section-intro has-text-centered">
+            <p class="section-kicker">Method</p>
+            <h2 class="title is-2 section-title">From edge noise to UV charts</h2>
+            <p>
+              SeamFlow predicts the probability of cutting every mesh edge in one continuous process, then converts the resulting seam graph into a UV map with standard parameterization.
+            </p>
+          </div>
+
+          <figure class="paper-figure pipeline-figure">
+            <img src="static/images/seamflow-pipeline.webp" alt="SeamFlow pipeline with a global encoder, structure-aware flow matching over edge tokens, predicted edge probabilities, and a UV map.">
+            <figcaption>Pipeline overview. Global geometric features condition a transformer that denoises edge tokens into precise seam probabilities.</figcaption>
+          </figure>
+
+          <div class="method-steps" aria-label="SeamFlow method stages">
+            <article>
+              <span>1</span>
+              <h3>Encode the shape</h3>
+              <p>A global encoder extracts semantic context from coordinates and surface normals.</p>
+            </article>
+            <article>
+              <span>2</span>
+              <h3>Evolve edge tokens</h3>
+              <p>Self- and cross-attention transport noisy edge probabilities along the learned flow.</p>
+            </article>
+            <article>
+              <span>3</span>
+              <h3>Unwrap the mesh</h3>
+              <p>The final seam probabilities define a cut graph that is parameterized into UV islands.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="section results-section">
+        <div class="container is-max-widescreen">
+          <div class="section-intro has-text-centered">
+            <p class="section-kicker">Results</p>
+            <h2 class="title is-2 section-title">Coherent, diverse, and scalable</h2>
+            <p>
+              Evaluation on 2,000 unseen test meshes covers geometric distortion, seam rationality, runtime, user preference, texture generation, editability, and cross-resolution generalization.
+            </p>
+          </div>
+
+          <div class="metric-grid" aria-label="Selected results reported in the paper">
+            <article><strong>0.12</strong><span>Angle distortion ↓</span></article>
+            <article><strong>0.14</strong><span>Area distortion ↓</span></article>
+            <article><strong>5.63 s</strong><span>Runtime ↓</span></article>
+            <article><strong>61.0%</strong><span>User study Top-1</span></article>
+            <article><strong>81.8%</strong><span>User study Top-2</span></article>
+          </div>
+          <p class="metric-note">Selected values from the paper's evaluation setup; distortion and runtime are lower-is-better.</p>
+
+          <div class="result-figures">
+            <figure class="paper-figure result-figure">
+              <div class="result-image-wrap">
+                <img src="static/images/seamflow-diversity.png" alt="Four distinct, valid seam layouts and UV maps generated by SeamFlow for the same character mesh.">
+              </div>
+              <figcaption><strong>Generation diversity.</strong> Different Gaussian seeds produce multiple plausible seam layouts for the same geometry.</figcaption>
+            </figure>
+            <figure class="paper-figure result-figure">
+              <div class="result-image-wrap">
+                <img src="static/images/seamflow-highpoly.png" alt="SeamFlow result on a high-resolution axe mesh, including the mesh, seam graph, and UV layout.">
+              </div>
+              <figcaption><strong>High-resolution generalization.</strong> The model remains stable on an AI-generated mesh with more than 100,000 faces.</figcaption>
+            </figure>
+          </div>
+
+          <div class="result-copy">
+            <article>
+              <h3>Semantic seam placement</h3>
+              <p>Seams follow functional components and natural structural creases, preserving concise islands on both regular and complex models.</p>
+            </article>
+            <article>
+              <h3>Texture-ready layouts</h3>
+              <p>Coherent UV islands improve texture continuity and reduce visible discontinuities in downstream 3D texture generation.</p>
+            </article>
+            <article>
+              <h3>Interactive refinement</h3>
+              <p>Local inpainting can resynthesize selected seam regions while keeping the rest of the layout fixed.</p>
+            </article>
           </div>
         </div>
       </section>
@@ -128,12 +224,19 @@
             <h2 class="title is-2 section-title">BibTeX</h2>
             <button class="copy-button" type="button" data-copy-target="bibtex" aria-label="Copy BibTeX">Copy</button>
           </div>
-          <pre id="bibtex"><code>@article{zhao2026seamflow,
-  title   = {SeamFlow: Structure-Aware Flow Matching on Edge Probabilities
-             for Artist-Like UV Unwrapping},
-  author  = {Zhao, Yuming and Xian, Zangyueyang and Zhang, Qijian and
-             Liang, Rendong and Jia, Qin and He, Ying and Hou, Junhui},
-  year    = {2026}
+          <pre id="bibtex"><code>@inproceedings{zhao2026seamflow,
+  author    = {Zhao, Yuming and Xian, Zangyueyang and Zhang, Qijian and
+               Liang, Rendong and Jia, Qin and He, Ying and Hou, Junhui},
+  title     = {SeamFlow: Structure-Aware Flow Matching on Edge Probabilities
+               for Artist-Like UV Unwrapping},
+  booktitle = {SIGGRAPH Asia 2026 Conference Papers},
+  year      = {2026},
+  articleno = {111},
+  numpages  = {12},
+  publisher = {Association for Computing Machinery},
+  address   = {New York, NY, USA},
+  doi       = {10.1145/3829340.3842329},
+  url       = {https://doi.org/10.1145/3829340.3842329}
 }</code></pre>
         </div>
       </section>
