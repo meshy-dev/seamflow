@@ -406,29 +406,40 @@ a.resource-pill:focus-visible {
 
 .result-figures {
   display: grid;
-  gap: 1.25rem;
-  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  grid-template-columns: 1fr;
 }
 
 .result-figure {
   background: var(--paper);
   border: 1px solid var(--line);
-  border-radius: 1rem;
+  border-radius: 1.2rem;
   overflow: hidden;
-  padding: 1rem;
+  padding: 1.2rem;
+}
+
+.result-label {
+  color: var(--red);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  margin: 0.1rem 0.25rem 0.9rem;
+  text-transform: uppercase;
 }
 
 .result-image-wrap {
   align-items: center;
   background: var(--white);
-  border-radius: 0.6rem;
+  border: 1px solid rgb(31 37 40 / 7%);
+  border-radius: 0.75rem;
   display: flex;
-  min-height: 15rem;
   overflow: hidden;
+  padding: 0.6rem;
 }
 
 .result-figure figcaption {
-  padding: 0 0.25rem 0.15rem;
+  font-size: 0.93rem;
+  padding: 0 0.25rem 0.2rem;
 }
 
 .result-figure figcaption strong {
@@ -543,14 +554,6 @@ pre {
 
   .metric-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .result-figures {
-    grid-template-columns: 1fr;
-  }
-
-  .result-image-wrap {
-    min-height: 0;
   }
 
   .method-steps article {
