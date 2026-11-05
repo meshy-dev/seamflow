@@ -15,22 +15,27 @@ pip install -e .
 pip install -e ".[flash]"
 ```
 
-Requires Python ≥ 3.10 and PyTorch ≥ 2.4. A CUDA GPU is recommended. The model
-runs on CPU, but slowly.
+Requires Python ≥ 3.10 and PyTorch ≥ 2.4. A CUDA GPU is recommended.
 
 ## Weights
 
-Put `config.json` and `model.safetensors` in one directory, for example
-`checkpoints/seamflow/`.
+The weights are on Hugging Face at
+[meshy-ai-team/seamflow](https://huggingface.co/meshy-ai-team/seamflow):
 
-<!-- TODO: add the download link for the released weights. -->
+```bash
+huggingface-cli download meshy-ai-team/seamflow --local-dir checkpoints
+```
+
+This creates `checkpoints/seamflow_sf2k_c12k_s14_0.940M/`, which holds
+`config.json` and `model.safetensors`. Any directory with these two files works
+as `--ckpt`.
 
 ## Usage
 
 ### Command line
 
 ```bash
-seamflow-infer --ckpt checkpoints/seamflow mesh.glb other.obj meshes_dir/ -o outputs/
+seamflow-infer --ckpt checkpoints/seamflow_sf2k_c12k_s14_0.940M mesh.glb other.obj meshes_dir/ -o outputs/
 ```
 
 For each mesh, this writes:
@@ -56,7 +61,7 @@ and F1 against the seams those UVs imply.
 ```python
 from seamflow import SeamFlowPipeline
 
-pipe = SeamFlowPipeline.from_pretrained("checkpoints/seamflow")
+pipe = SeamFlowPipeline.from_pretrained("checkpoints/seamflow_sf2k_c12k_s14_0.940M")
 pred = pipe("mesh.glb", n_steps=50, seed=0)
 
 pred.scores    # [E] per-edge score
@@ -111,8 +116,15 @@ pytest tests
 
 ## Citation
 
-<!-- TODO -->
+This code accompanies
+[SeamFlow: Structure-Aware Flow Matching on Edge Probabilities for Artist-Like UV Unwrapping](https://arxiv.org/abs/2609.04751).
 
-## License
+```bibtex
+@inproceedings{zhao2026seamflow,
+  title         = {SeamFlow: Structure-Aware Flow Matching on Edge Probabilities for Artist-Like UV Unwrapping},
+  author        = {Zhao, Yuming and Xian, Zangyueyang and Zhang, Qijian and Liang, Rendong and Jia, Qin and He, Ying and Hou, Junhui},
+  booktitle     = {SIGGRAPH Asia 2026},
+  year          = {2026},
+}
+```
 
-<!-- TODO -->
